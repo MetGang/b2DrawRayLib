@@ -12,16 +12,16 @@ class b2DrawRayLib : public b2Draw
 public:
 
     ///
-    explicit b2DrawRayLib(Vector2 const& scale = { 1.0f, 1.0f }) noexcept;
+    explicit b2DrawRayLib(float scale = 1.0f) noexcept;
 
     ///
     void SetAllFlags() noexcept;
 
     ///
-    void SetScale(Vector2 const& scale) noexcept;
+    void SetScale(float scale) noexcept;
 
     ///
-    Vector2 const& GetScale() noexcept;
+    float GetScale() noexcept;
 
     ///
     void DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color const& color) noexcept;
@@ -47,6 +47,9 @@ public:
 private:
 
     /// PRIV:
+    float M_ToPixels(float f) const noexcept;
+
+    /// PRIV:
     Vector2 M_ToPixels(b2Vec2 const& p) const noexcept;
 
     /// PRIV:
@@ -55,5 +58,5 @@ private:
     /// PRIV:
     Color M_ConvertColor(b2Color const& color, float newAlpha) const noexcept;
 
-    Vector2 m_scale;
+    float m_scale;
 };

@@ -3,7 +3,7 @@
 // C++
 #include <vector>
 
-b2DrawRayLib::b2DrawRayLib(Vector2 const& scale) noexcept
+b2DrawRayLib::b2DrawRayLib(float scale) noexcept
     : m_scale { scale }
 {
 
@@ -20,12 +20,12 @@ void b2DrawRayLib::SetAllFlags() noexcept
     );
 }
 
-void b2DrawRayLib::SetScale(Vector2 const& scale) noexcept
+void b2DrawRayLib::SetScale(float scale) noexcept
 {
     m_scale = scale;
 }
 
-Vector2 const& b2DrawRayLib::GetScale() noexcept
+float b2DrawRayLib::GetScale() noexcept
 {
     return m_scale;
 }
@@ -53,19 +53,19 @@ void b2DrawRayLib::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b
         convertedVertices[i] = M_ToPixels(vertices[count - i - 1]);
     }
 
-    DrawTriangleFan(convertedVertices.data(), vertexCount, M_ConvertColor(color));
+    DrawTriangleFan(convertedVertices.data(), count, M_ConvertColor(color, 0.8f));
 }
 
 void b2DrawRayLib::DrawCircle(b2Vec2 const& center, float radius, b2Color const& color) noexcept
 {
     auto const convertedCenter = M_ToPixels(center);
 
-    DrawCircleLines(convertedCenter.x, convertedCenter.y, radius, M_ConvertColor(color));
+    DrawCircleLines(convertedCenter.x, convertedCenter.y, M_ToPixels(radius), M_ConvertColor(color));
 }
 
 void b2DrawRayLib::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& /* axis */, b2Color const& color) noexcept
 {
-    DrawCircleV(M_ToPixels(center), radius, M_ConvertColor(color, 0.8f));
+    DrawCircleV(M_ToPixels(center), M_ToPixels(radius), M_ConvertColor(color, 0.8f));
 }
 
 void b2DrawRayLib::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color) noexcept
@@ -86,9 +86,14 @@ void b2DrawRayLib::DrawPoint(b2Vec2 const& p, float size, b2Color const& color) 
     DrawCircleV(M_ToPixels(p), size, M_ConvertColor(color));
 }
 
+float b2DrawRayLib::M_ToPixels(float f) const noexcept
+{
+    return f * m_scale;
+}
+
 Vector2 b2DrawRayLib::M_ToPixels(b2Vec2 const& p) const noexcept
 {
-    return { p.x * m_scale.x, p.y * m_scale.y };
+    return { p.x * m_scale, p.y * m_scale };
 }
 
 Color b2DrawRayLib::M_ConvertColor(b2Color const& color) const noexcept 
