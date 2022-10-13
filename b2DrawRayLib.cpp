@@ -83,7 +83,7 @@ void b2DrawRayLib::DrawTransform(b2Transform const& xf) noexcept
 
 void b2DrawRayLib::DrawPoint(b2Vec2 const& p, float size, b2Color const& color) noexcept
 {
-    DrawCircleV(M_ToPixels(p), size, M_ConvertColor(color));
+    DrawSolidCircle(p, size, {}, color);
 }
 
 float b2DrawRayLib::M_ToPixels(float f) const noexcept
